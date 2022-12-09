@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block body %}
+    {% if user.role == 'student' or user.role == 'faculty' or user.role == 'admin'%}
+<h1 class="course-header">Welcome {{ user.username }}!</h1>
+<p class="course-form__content">
+    You are able to manage your projects below:
+</p>
+<div>
+    <button href="http://127.0.0.1:8000/" style="float: right;" type="submit">Logout</button>
+</div>
+<h2 class="course-header">
+    Project List
+</h2>
+    <div class="row">
+    {% for project in projects %}
+
+        <div class="column">
+            <div class="course-display">
+                <p><a href="{% url 'updateProject' project.id %}">{{ project.projecttitle }}</a>
+                    <br>
+                    <a href="{% url 'projectDetail' project.id %}">
+                    <img src="/static/website/project.png">
+                    </a>
+
+                    <br>
+                    <a href="{% url 'updateProject' project.id %}">Edit</a> |
+                    <a href="{% url 'deleteProject' project.id %}">Delete</a>
+                </p>
+            </div>
+        </div>
+
+    {% endfor %}
+    </div>
+<p>
+    <br>
+    <br>
+
+    <a href="{% url 'createProject' user.id %}" class="course-display__button">New project</a>
+</p>
+    {% else %}
+        <div class="container">
+            <p>
+        Please Log in to view this page<br>
+                <a href="{% url 'login' %}" class="course-display__button">Log In</a>
+        </p>
+        </div>
+    {% endif %}
+{% endblock %}
